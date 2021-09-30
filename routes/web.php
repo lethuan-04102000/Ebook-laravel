@@ -30,7 +30,7 @@ Route::get('/dashboard','Admincontroller@show_dashboard') ;
 Route::get('/logout','Admincontroller@logout') ;
 Route::post('/admin-dashboard','Admincontroller@dashboard') ;
 
-//Loai sach
+// danh mục sách
 Route::get('/add-category-product','CategoryProduct@add_category_product') ;
 Route::get('/edit-category-product/{category_product_id}','CategoryProduct@edit_category_product') ;
 Route::get('/delete-category-product/{category_product_id}','CategoryProduct@delete_category_product') ;
@@ -41,7 +41,7 @@ Route::get('/unactive-category-product/{category_product_id}','CategoryProduct@a
 Route::post('/save-category-product','CategoryProduct@save_category_product') ;
 Route::post('/update-category-product/{category_product_id}','CategoryProduct@update_category_product') ;
 
-//Nha xuat ban
+// brand product( Nha xuat ban)
 Route::get('/add-brand-product','BrandProduct@add_brand_product') ;
 Route::get('/edit-brand-product/{brand_product_id}','BrandProduct@edit_brand_product') ;
 Route::get('/delete-brand-product/{brand_product_id}','BrandProduct@delete_brand_product') ;
@@ -52,7 +52,7 @@ Route::get('/unactive-brand-product/{brand_product_id}','BrandProduct@active_bra
 Route::post('/save-brand-product','BrandProduct@save_brand_product') ;
 Route::post('/update-brand-product/{brand_product_id}','BrandProduct@update_brand_product') ;
 
-//send mail
+//send mail( test)
 Route::get('/send-mail','HomeController@send_mail') ;
 
 // product
@@ -70,10 +70,10 @@ Route::post('/update-product/{product_id}','ProductController@update_product') ;
 Route::post('/load-comment','ProductController@load_comment');
 Route::post('/send-comment','ProductController@send_comment');
 
-// mã giảm giá
+// coupon (mã giảm giá)
 Route::post('/check-coupon','CartController@check_coupon') ;
 
-// quản lý phần cho admin 
+// coupon for admin manager quản lý phần cho admin 
 Route::get('/insert-coupon','CouponController@insert_coupon') ;
 Route::get('/unset-coupon','CouponController@unset_coupon') ;
 Route::get('/delete-coupon/{coupon_id}','CouponController@delete_coupon') ;
@@ -81,7 +81,7 @@ Route::post('/insert-coupon-code','CouponController@insert_coupon_code') ;
 Route::get('/list-coupon','CouponController@list_coupon') ;
 // kết thúc mã giảm giá
 
-//cart (them gia hang cho khach)
+//cart for customer (them gio hang cho khach)
 Route::post('/save-cart','CartController@save_cart') ;
 Route::post('/update-cart-quantity','CartController@update_cart_quantity');
 Route::post('/update-cart','CartController@update_cart');
@@ -106,7 +106,7 @@ Route::post('/calculate-fee','CheckoutController@calculate_fee');
 Route::get('/del-fee','CheckoutController@del_fee');
 Route::post('/confirm-order','CheckoutController@confirm_order');
 
-// quan ly gio hang o trang admin
+// manager cart in admin page (quan ly gio hang o trang admin)
 Route::get('/delete-order/{order_code}','OrderController@order_code');
 Route::get('/print-order/{checkout_code}','OrderController@print_order');
 Route::get('/manage-order','OrderController@manage_order');

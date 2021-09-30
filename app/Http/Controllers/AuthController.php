@@ -10,17 +10,24 @@ use Auth;
 
 class AuthController extends Controller
 {
-    public function register_auth(){
+    public function register_auth()
+    {
     	return view('admin.custom_auth.register');
     }
-    public function login_auth(){
+
+    public function login_auth()
+    {
         return view('admin.custom_auth.login_auth');
     }
-    public function logout_auth(){
+
+    public function logout_auth()
+    {
         Auth::logout();
         return redirect('/login-auth')->with('message','Đăng xuất authentication thành công');
     }
-    public function login(Request $request){
+
+    public function login(Request $request)
+    {
         $this->validate($request,[
             'admin_email' => 'required|email|max:255', 
             'admin_password' => 'required|max:255'
@@ -34,7 +41,9 @@ class AuthController extends Controller
         }
 
     }
-    public function register(Request $request){
+    
+    public function register(Request $request)
+    {
 		$this->validation($request);
 		$data = $request->all();
 
@@ -47,7 +56,9 @@ class AuthController extends Controller
 		return redirect('/register-auth')->with('message','Đăng ký thành công');
 
     }
-    public function validation($request){
+
+    public function validation($request)
+    {
     	return $this->validate($request,[
     		'admin_name' => 'required|max:255', 
     		'admin_phone' => 'required|max:255', 

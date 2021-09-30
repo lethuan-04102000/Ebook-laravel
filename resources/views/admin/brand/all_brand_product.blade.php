@@ -22,7 +22,7 @@
                 <input type="checkbox"><i></i>
               </label>
             </th>
-            <th>Tên NXB</th>
+            <th>Tên Nhà  Xuất Bản</th>
             <th>Brand Slug</th>
             <th>Hiển thị</th>
             

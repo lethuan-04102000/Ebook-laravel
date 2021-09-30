@@ -20,6 +20,7 @@ class CustomerController extends Controller
             return Redirect::to('admin')->send();
         }
     }
+    
     public function all_customer()
     {
         $this->AuthLogin();

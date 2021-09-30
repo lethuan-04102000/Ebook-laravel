@@ -13,13 +13,16 @@ class Feeship extends Model
     protected $primaryKey = 'fee_id';
  	protected $table = 'tbl_feeship';
 
- 	public function city(){
+ 	public function city()
+	{
  		return $this->belongsTo('App\City', 'fee_matp');
  	}
- 	public function province(){
+ 	public function province()
+	{
  		return $this->belongsTo('App\Province', 'fee_maqh');
  	}
- 	public function wards(){
+ 	public function wards()
+	{
  		return $this->belongsTo('App\Wards', 'fee_xaid');
  	}
 }

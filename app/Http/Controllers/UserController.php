@@ -84,7 +84,8 @@ class UserController extends Controller
         return redirect()->back()->with('message','Cấp quyền thành công');
     }
 
-    public function store_users(Request $request){
+    public function store_users(Request $request)
+    {
         $data = $request->all();
         $admin = new Admin();
         $admin->admin_name = $data['admin_name'];

@@ -90,20 +90,26 @@ class DeliveryController extends Controller
     public function select_delivery(Request $request)
 	{
     	$data = $request->all();
-    	if($data['action']){
+    	if($data['action'])
+		{
     		$output = '';
-    		if($data['action']=="city"){
+    		if($data['action']=="city")
+			{
     			$select_province = Province::where('matp',$data['ma_id'])->orderby('maqh','ASC')->get();
     				$output.='<option>---Chọn quận huyện---</option>';
-    			foreach($select_province as $key => $province){
+    			foreach($select_province as $key => $province)
+				{
     				$output.='<option value="'.$province->maqh.'">'.$province->name_quanhuyen.'</option>';
     			}
 
-    		}else{
+    		}
+			else
+			{
 
     			$select_wards = Wards::where('maqh',$data['ma_id'])->orderby('xaid','ASC')->get();
     			$output.='<option>---Chọn xã phường---</option>';
-    			foreach($select_wards as $key => $ward){
+    			foreach($select_wards as $key => $ward)
+				{
     				$output.='<option value="'.$ward->xaid.'">'.$ward->name_xaphuong.'</option>';
     			}
     		}

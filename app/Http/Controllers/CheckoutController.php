@@ -211,7 +211,8 @@ class CheckoutController extends Controller
         return view('pages.checkout.payment')->with('category',$cate_product)->with('brand',$brand_product);
     }
 
-    public function order_place(Request $request){
+    public function order_place(Request $request)
+    {
         //insert payment method
         $data = array();
         $data['payment_method'] = $request->payment_option;
@@ -237,14 +238,17 @@ class CheckoutController extends Controller
             $order_d_data['product_sales_quantity']= $v_content->qty;
             DB::table('tbl_order_details')->insertGetId($order_d_data);
         }
-        if($data['payment_method']==1){
+        if($data['payment_method']==1)
+        {
             echo 'thanh toán bằng tiền mặt';
-        }elseif ($data['payment_method']==2){
+        }elseif ($data['payment_method']==2)
+        {
             Cart::destroy();
             $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id','desc')->get(); 
             $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id','desc')->get();
             return view('pages.checkout.handcash')->with('category',$cate_product)->with('brand',$brand_product);
-        }else{
+        }else
+        {
             echo 'thẻ ghi nợ' ;
         }
    
@@ -270,6 +274,7 @@ class CheckoutController extends Controller
             return Redirect('/login-checkout');
         }
     }
+    
     public function manage_order()
     {
         $this->Authlogin();

@@ -8,8 +8,8 @@
 						<h2>Đăng Nhập Bằng Tài Khoản</h2>
 						<form action="{{URL::to('/login-customer')}}" method="POST"> 
 							{{csrf_field()}}
-							<input type="text" name="email_account" placeholder="Tài Khoản Email " />
-							<input type="password" name="password_account" placeholder="Mật Khẩu" />
+							<input type="text" name="email_account" placeholder="Tài Khoản Email "  required/>
+							<input type="password" name="password_account" placeholder="Mật Khẩu" required/>
 							<span>
 								<input type="checkbox" class="checkbox"> 
 								Ghi Nhớ Đăng Nhập
@@ -26,10 +26,10 @@
 						<h2>Đăng Ký Người Dùng Mới</h2>
 						<form action="{{URL::to('/add-customer')}}" method="POST">
 							{{csrf_field()}}
-							<input type="text"  name="customer_name" placeholder="Tên"/>
-							<input type="email"  name="customer_email" placeholder="Địa Chỉ Email"/>
-							<input type="password"  name="customer_password" placeholder="Password"/>
-							<input type="text"  name="customer_phone" placeholder="số điện thoại"/>
+							<input type="text"  name="customer_name" placeholder="Tên" required />
+							<input type="email"  name="customer_email" placeholder="Địa Chỉ Email" required/>
+							<input type="password"  name="customer_password" placeholder="Password" required/>
+							<input type="text"  name="customer_phone" placeholder="số điện thoại" required/>
 
 							<button type="submit" class="btn btn-default">Signup</button>
 						</form>
