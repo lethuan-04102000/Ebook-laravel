@@ -44,6 +44,8 @@
               </label>
             </th>
             <th>Tên  Sách </th>
+            <th>Số lượng</th>
+            <th>Slug</th>
             <th>Tác Giả </th>
             <th>Giá Sách</th>
             <th>Hình Ảnh Sách</th>
@@ -60,6 +62,8 @@
           <tr>
             <td><label class="i-checks m-b-none"><input type="checkbox" name="post[]"><i></i></label></td>
             <td>{{$pro->product_name}}</td>
+            <td>{{ $pro->product_quantity }}</td>
+            <td>{{ $pro->product_slug }}</td>
             <td>{{$pro->product_content}}</td>
             <td>{{$pro->product_price}}</td>
             <td><img src="public/uploads/product/{{$pro->product_image}} " height="150" width="150" alt=""  ></td>

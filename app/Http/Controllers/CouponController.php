@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Coupon;
 use Session;
+use Auth;
 use Illuminate\Support\Facades\Redirect;
 session_start();
 class CouponController extends Controller
@@ -23,6 +24,7 @@ class CouponController extends Controller
     {
         return view('admin.coupon.insert_coupon');
     }
+
     public function delete_coupon($coupon_id){
         $coupon = Coupon::find($coupon_id);
         $coupon->delete();
@@ -30,7 +32,8 @@ class CouponController extends Controller
         return Redirect::to('list-coupon');
     }
 
-    public function insert_coupon_code(Request $request){
+    public function insert_coupon_code(Request $request)
+    {
         $data =$request->all();
         
         $coupon = new Coupon();

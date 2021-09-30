@@ -15,20 +15,25 @@ use PDF;
 
 class OrderController extends Controller
 {
-	public function order_code(Request $request ,$order_code){
+	public function order_code(Request $request ,$order_code)
+	{
 		$order = Order::where('order_code',$order_code)->first();
 		$order->delete();
 		 Session::put('message','Xóa đơn hàng thành công');
         return redirect()->back();
 
 	}
-	public function update_qty(Request $request){
+
+	public function update_qty(Request $request)
+	{
 		$data = $request->all();
 		$order_details = OrderDetails::where('product_id',$data['order_product_id'])->where('order_code',$data['order_code'])->first();
 		$order_details->product_sales_quantity = $data['order_qty'];
 		$order_details->save();
 	}
-	public function update_order_qty(Request $request){
+	
+	public function update_order_qty(Request $request)
+	{
 		//update order
 		$data = $request->all();
 		$order = Order::find($data['order_id']);
@@ -68,13 +73,17 @@ class OrderController extends Controller
 
 
 	}
-	public function print_order($checkout_code){
+
+	public function print_order($checkout_code)
+	{
 		$pdf = \App::make('dompdf.wrapper');
 		$pdf->loadHTML($this->print_order_convert($checkout_code));
 		
 		return $pdf->stream();
 	}
-	public function print_order_convert($checkout_code){
+
+	public function print_order_convert($checkout_code)
+	{
 		$order_details = OrderDetails::where('order_code',$checkout_code)->get();
 		$order = Order::where('order_code',$checkout_code)->get();
 		foreach($order as $key => $ord){
@@ -121,8 +130,8 @@ class OrderController extends Controller
 			border:1px solid #000;
 		}
 		</style>
-		<h1><centerCông ty TNHH một thành viên ABCD</center></h1>
-		<h4><center>Độc lập - Tự do - Hạnh phúc</center></h4>
+		<h1><centerCông ty TNHH Lê Văn THuận</center></h1>
+		<h4><center>Shop sales sách số một miền Trung</center></h4>
 		<p>Người đặt hàng</p>
 		<table class="table-styling">
 				<thead>
@@ -257,7 +266,9 @@ class OrderController extends Controller
 		return $output;
 
 	}
-	public function view_order($order_code){
+
+	public function view_order($order_code)
+	{
 		$order_details = OrderDetails::with('product')->where('order_code',$order_code)->get();
 		$order = Order::where('order_code',$order_code)->get();
 		foreach($order as $key => $ord){
@@ -286,7 +297,9 @@ class OrderController extends Controller
 		return view('admin.order.view_order')->with(compact('order_details','customer','shipping','order_details','coupon_condition','coupon_number','order','order_status'));
 
 	}
-    public function manage_order(){
+	
+    public function manage_order()
+	{
     	$order = Order::orderby('created_at','DESC')->paginate(5);
     	return view('admin.order.manage_order')->with(compact('order'));
     }

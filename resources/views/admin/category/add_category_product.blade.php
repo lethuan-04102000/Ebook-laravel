@@ -19,10 +19,14 @@
                         
                     <form role="form" action="{{URL::to('/save-category-product')}}" method="post">
                         {{csrf_field()}}    
-                    <div class="form-group" >
-                            <label for="exampleInputEmail1">Tên danh mục</label>
-                            <input type="text" class="form-control" name="category_product_name" placeholder="Tên Danh mục">
-                        </div>
+                        <div class="form-group">
+                                    <label for="exampleInputEmail1">Tên danh mục</label>
+                                    <input type="text"  class="form-control"  onkeyup="ChangeToSlug();" name="category_product_name"  id="slug" placeholder="danh mục" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Slug</label>
+                                    <input type="text" name="slug_category_product" class="form-control" id="convert_slug" placeholder="Tên danh mục">
+                                </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả danh mục</label>
                             <textarea  type="text" style="resize:none" row="8" class="form-control" name="category_product_desc" placeholder="mô tả danh mục"> </textarea>

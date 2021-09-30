@@ -4,16 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
 use Session;
 use App\http\Requests;
 use Illuminate\Support\Facades\Redirect;
 session_start();
 class Admincontroller extends Controller
 {
-    //
+    //kiem tra admin
     public function Authlogin()
     {
-        $admin_id= Session::get('admin_id');
+        $admin_id= Auth::id();
        if ($admin_id){
           return Redirect::to('dashboard');
        }else{

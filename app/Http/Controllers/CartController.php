@@ -6,13 +6,15 @@ use Session;
 use App\http\Requests;
 use Illuminate\Support\Facades\Redirect;
 use Cart;
+use App\Slider;
 use App\Coupon;
 
 session_start();
 class CartController extends Controller
 {
     //
-    public function check_coupon(Request $request){
+    public function check_coupon(Request $request)
+    {
         $data = $request->all();
         $coupon = Coupon::where('coupon_code',$data['coupon'])->first();
         if($coupon){
@@ -48,8 +50,11 @@ class CartController extends Controller
         }
 
     }
+    
     public function gio_hang(Request $request)
     {
+        $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
+
         $meta_desc = "Giỏ Hàng của bạn"; 
         $meta_keywords ="giỏ hàng";
         $meta_title = " giỏ hàng ajax";
@@ -60,7 +65,8 @@ class CartController extends Controller
         return view('pages.cart.cart_ajax')->with('category',$cate_product)->with('brand',$brand_product)->with('meta_desc',$meta_desc)
         ->with('meta_keywords',$meta_keywords)
         ->with('meta_title',$meta_title)
-        ->with('url_canonical',$url_canonical);;
+        ->with('url_canonical',$url_canonical)
+        ->with('slider',$slider);
     }
 
     public function add_cart_ajax(Request $request)

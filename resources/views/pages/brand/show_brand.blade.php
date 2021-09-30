@@ -1,12 +1,14 @@
 @extends('layout')
 @section('content')
-<div class="features_items">
+<div class="features_items"><!--features_items-->
+
                         @foreach($brand_name as $key => $name)
-							<h2 class="title text-center">{{$name->brand_name}}</h2>
-						@endforeach
-						@foreach($brand_by_id as $key =>$product)
-						<a href="{{URL::to('/chi-tiet-san-pham/'.$product->product_id)}}">
-						<div class="col-sm-4">
+                            <h2 class="title text-center">{{$name->brand_name}}</h2>
+                        @endforeach
+
+                        @foreach($brand_by_id as $key => $product)
+                        <a href="{{URL::to('/chi-tiet/'.$product->product_slug)}}">
+                        <div class="col-sm-4">
                             <div class="product-image-wrapper">
                            
                                 <div class="single-products">
@@ -19,7 +21,7 @@
                                             <input type="hidden" value="{{$product->product_price}}" class="cart_product_price_{{$product->product_id}}">
                                             <input type="hidden" value="1" class="cart_product_qty_{{$product->product_id}}">
 
-                                            <a href="">
+                                            <a href="{{URL::to('/chi-tiet/'.$product->product_slug)}}">
                                                 <img src="{{URL::to('public/uploads/product/'.$product->product_image)}}" alt="" />
                                                 <h2>{{number_format($product->product_price,0,',','.').' '.'VNĐ'}}</h2>
                                                 <p>{{$product->product_name}}</p>
@@ -42,7 +44,12 @@
                             </div>
                     
                         </div>
-						</a>
-						@endforeach
-</div>
+                        </a>
+                        @endforeach
+                    </div><!--features_items-->
+                      <ul class="pagination pagination-sm m-t-none m-b-none">
+                       {!!$brand_by_id->links()!!}
+                      </ul>
+
+        <!--/recommended_items-->
 @endsection

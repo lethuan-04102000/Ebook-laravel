@@ -31,7 +31,8 @@ class DeliveryController extends Controller
 		$fee_ship->save();
 	}
 
-	public function select_feeship(){
+	public function select_feeship()
+	{
 		$feeship = Feeship::orderby('fee_id','DESC')->get();
 		$output = '';
 		$output .= '<div class="table-responsive">  

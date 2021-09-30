@@ -3,58 +3,74 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use DB;
+use Auth;
+
 use App\Brand;
+use App\Slider;
 use Session;
-use App\http\Requests;
+use App\Http\Requests;
 use Illuminate\Support\Facades\Redirect;
 session_start();
 class BrandProduct extends Controller
 {
-    //
-    public function Authlogin(){
-        $admin_id= Session::get('admin_id');
-       if ($admin_id){
-          return Redirect::to('dashboard');
-       }else{
-           return  Redirect::to('admin')->send();
-       }
-    }
-    public function add_brand_product(){
-        $this->Authlogin();
-        return view('admin.brand.add_brand_product');
+    public function AuthLogin()
+    {
+        $admin_id= Auth::id();
+        if($admin_id){
+            return Redirect::to('dashboard');
+        }else{
+            return Redirect::to('admin')->send();
+        }
     }
 
+    public function add_brand_product()
+    {
+        $this->AuthLogin();
+    	return view('admin.brand.add_brand_product');
+    }
     public function all_brand_product()
     {
-        
-        $this->Authlogin();
-        // $all_brand_product = DB::table('tbl_brand')->get();
-        $all_brand_product= Brand::orderby ('brand_id','DESC')->get();
-        $manager_brand_product = view('admin.brand.all_brand_product')->with('all_brand_product', $all_brand_product);
-        return view('admin_layout')->with('admin.brand.all_brand_product',$manager_brand_product);
+        $this->AuthLogin();
+    	 
+        $all_brand_product = Brand::orderBy('brand_id','DESC')->paginate(2);
+    	$manager_brand_product  = view('admin.brand.all_brand_product')->with('all_brand_product',$all_brand_product);
+    	return view('admin_layout')->with('admin.brand.all_brand_product', $manager_brand_product);
+
+
     }
+    
     public function save_brand_product(Request $request)
     {
-        $this->Authlogin();
-        $data= $request->all();
+        $this->AuthLogin();
+        //$data = $request->all();
+        $data = $request->validate(
+            [
+                'brand_name'=>'required|unique:tbl_product|max:255',
+                'brand_slug'=>'required',
+                'brand_desc'=>'required',
+                'brand_status'=>'required',
+            ],
+            [
+                'brand_name.required' => 'nhập tên nhà xuất bản  yêu cầu',
+                'brand_slug.required' => 'nhập slug nhà xuất bản  yêu cầu',
+                'brand_desc.required' => 'Nhập mô tả',
+                'brand_status.required' => 'chọn trạng thái cho nhà xuất bản',
+
+            ]
+        );
         $brand = new Brand();
         $brand->brand_name = $data['brand_product_name'];
         $brand->brand_slug = $data['brand_slug'];
         $brand->brand_desc = $data['brand_product_desc'];
         $brand->brand_status = $data['brand_product_status'];
         $brand->save();
-        // $data['brand_name']=$request->brand_product_name;
-        // $data['brand_slug']=$request->brand_slug;
-        // $data['brand_desc']=$request->brand_product_desc;
-        // $data['brand_status']=$request->brand_product_status;
-
-        // DB::table('tbl_brand')->insert($data);
-        Session::put('message','them thuong hieu thanh cong');
-        return Redirect::to('add-brand-product');
+       
+        
+    	Session::put('message','Thêm thương hiệu sản phẩm thành công');
+    	return Redirect::to('add-brand-product');
     }
-
+    // bật tắt danh mục
     public function unactive_brand_product($brand_product_id)
     {
         $this->Authlogin();
@@ -83,10 +99,10 @@ class BrandProduct extends Controller
 
         //$edit_brand_product = DB::table('tbl_brand')->where('brand_id',$brand_product_id)->get();
         $edit_brand_product = Brand::find($brand_product_id);
-        $manager_brand_product = view('admin.edit_brand_product')->with('edit_brand_product', $edit_brand_product);
-        return view('admin_layout')->with('admin.edit_brand_product',$manager_brand_product);
+        $manager_brand_product = view('admin.brand.edit_brand_product')->with('edit_brand_product', $edit_brand_product);
+        return view('admin_layout')->with('admin.brand.edit_brand_product',$manager_brand_product);
     }
-
+    //cập nhật danh mục
     public function update_brand_product(Request $request, $brand_product_id)
     {
         $this->Authlogin();
@@ -105,24 +121,36 @@ class BrandProduct extends Controller
         return Redirect::to('all-brand-product');
     }
     
-    public function delete_brand_product($brand_product_id){
+    public function delete_brand_product($brand_product_id)
+    {
         $this->Authlogin();
 
+        DB::table('tbl_product')->where('product_id',$brand_product_id)->delete();
+
         DB::table('tbl_brand')->where('brand_id',$brand_product_id)->delete();
+
         Session::put('message','xoa nha xuat ban thanh cong');
         return Redirect::to('all-brand-product');
     }
-    //end admin
-    public function show_brand_home(Request $request,$brand_id)
-    {
 
+    //End Function Admin Page
+     
+     public function show_brand_home(Request $request, $brand_slug)
+     {
+        //slide
+        $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
 
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id','desc')->get(); 
-        $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id','desc')->get();
-        $brand_by_id = DB::table('tbl_product')->join('tbl_brand','tbl_product.brand_id','=','tbl_brand.brand_id')
-        ->where('tbl_product.brand_id',$brand_id)->get();
+        $brand_product = DB::table('tbl_brand')->where('brand_status','0')->orderby('brand_id','desc')->get(); 
+        
+        
+        $brand_by_id = DB::table('tbl_product')
+        ->join('tbl_brand','tbl_product.brand_id','=','tbl_brand.brand_id')
+        ->where('tbl_brand.brand_slug',$brand_slug)
+        ->paginate(6);
 
-        $brand_name=DB::table('tbl_brand')->where('tbl_brand.brand_id',$brand_id)->limit(1)->get();
+        $brand_name = DB::table('tbl_brand')->where('tbl_brand.brand_slug',$brand_slug)->limit(1)->get();
+
         foreach($brand_name as $key => $val){
             //seo 
             $meta_desc = $val->brand_desc; 
@@ -131,6 +159,7 @@ class BrandProduct extends Controller
             $url_canonical = $request->url();
             //--seo
         }
+         
         return view('pages.brand.show_brand')->with('category',$cate_product)
         ->with('brand',$brand_product)
         ->with('brand_by_id',$brand_by_id)
@@ -138,8 +167,7 @@ class BrandProduct extends Controller
         ->with('meta_desc',$meta_desc)
         ->with('meta_keywords',$meta_keywords)
         ->with('meta_title',$meta_title)
-        ->with('url_canonical',$url_canonical);
-
+        ->with('url_canonical',$url_canonical)
+        ->with('slider',$slider);;
     }
 }
-

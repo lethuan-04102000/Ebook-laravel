@@ -20,14 +20,22 @@
                         
                     <form role="form" action="{{URL::to('/update-brand-product/'.$edit_brand_product->brand_id)}}" method="post">
                         {{csrf_field()}}    
-                        <div class="form-group" >
+                        <!-- <div class="form-group" >
                             <label for="exampleInputEmail1">Tên danh mục</label>
-                            <input type="text" value="{{$edit_brand_product->brand_name}}" class="form-control" name="brand_product_name" placeholder="Tên Danh mục">
+                            <input type="text" value="{{$edit_brand_product->brand_name}}" name="brand_product_slug" class="form-control" id="convert_slug">
                         </div>
                         <div class="form-group" >
                             <label for="exampleInputEmail1">Slug Nhà Xuất Bản</label>
                             <input type="text" value="{{$edit_brand_product->brand_slug}}" class="form-control" name="brand_product_slug" placeholder="Tên Danh mục">
-                        </div>
+                        </div> -->
+                        <div class="form-group">
+                                    <label for="exampleInputEmail1">Tên danh mục</label>
+                                    <input type="text" value="{{$edit_brand_product->brand_name}}"  onkeyup="ChangeToSlug();" name="brand_product_name" class="form-control" id="slug" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Slug</label>
+                                    <input type="text" value="{{$edit_brand_product->brand_slug}}" name="brand_product_slug" class="form-control" id="convert_slug" >
+                                </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Mô tả danh mục</label>
                             <textarea  type="text" style="resize:none" row="12" class="form-control" name="brand_product_desc" >{{$edit_brand_product->brand_desc}} </textarea>

@@ -6,6 +6,15 @@
                 <header class="panel-heading">
                     Thêm Sách
                 </header>
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <?php
                     $message= Session::get('message');
                     if($message){
@@ -20,10 +29,18 @@
                     <form role="form" action="{{URL::to('/save-product')}}" method="post" enctype="multipart/form-data">
                         {{csrf_field()}}    
                         <div class="form-group" >
-                            <label for="exampleInputEmail1" >Tên Sách</label>
-                            <input type="text" class="form-control" name="product_name" placeholder="Tên Danh mục" 
-                            data-validation="length" data-validation-length="min4"  data-validation-error-msg="tối thiểu 3  ký tự">
-                        </div>
+                        <div class="form-group">
+                                    <label for="exampleInputEmail1">Tên sản phẩm</label>
+                                    <input type="text"  name="product_name" class="form-control " id="slug" placeholder="Tên danh mục" onkeyup="ChangeToSlug();"> 
+                                </div>
+                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">SL sản phẩm</label>
+                                    <input type="text"  name="product_quantity" class="form-control" id="exampleInputEmail1" placeholder="Điền số lượng">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Slug</label>
+                                    <input type="text" name="product_slug" class="form-control " id="convert_slug" placeholder="Tên danh mục">
+                                </div>
                         <div class="form-group" >
                             <label for="exampleInputEmail1">Hình ảnh Sách</label>
                             <input type="file" class="form-control" name="product_image" >
@@ -68,7 +85,7 @@
                         </select>
                     </div>
       
-                        <button type="submit" name="add_product" class="btn btn-info">Thêm danh mục</button>
+                        <button type="submit" name="add_product" class="btn btn-info">Thêm  sách</button>
                     </form>
                     </div>
 

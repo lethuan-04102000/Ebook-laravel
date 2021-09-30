@@ -48,6 +48,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="clearfix"></div>
 				<input type="submit" value="Sign In" name="login">
 		</form>
+		<a href="{{url('/register-auth')}}">Đăng ký Auth</a> |
+		<a href="{{url('/login-auth')}}">Đăng nhập Auth</a>
+
 		<!-- <p>Don't Have an Account ?<a href="registration.html">Create an account</a></p> -->
 </div>
 </div>

@@ -18,11 +18,11 @@ Route::get('/trang-chu','HomeController@index') ;
 Route::post('/tim-kiem','HomeController@search') ;
 
 // danh muc san pham
-Route::get('/danh-muc-san-pham/{category_id}','CategoryProduct@show_category_home') ;
-Route::get('/danh-muc-thuong-hieu/{brand_id}','BrandProduct@show_brand_home') ;
+Route::get('/danh-muc-san-pham/{slug_category_product}','CategoryProduct@show_category_home') ;
+Route::get('/danh-muc-thuong-hieu/{brand_slug}','BrandProduct@show_brand_home') ;
 
 //chi tiet san pham
-Route::get('/chi-tiet-san-pham/{product_id}','ProductController@details_product') ;
+Route::get('/chi-tiet/{product_slug}','ProductController@details_product');
 
 //backend(quản lý phần admin)
 Route::get('/admin','Admincontroller@index') ;
@@ -56,42 +56,39 @@ Route::post('/update-brand-product/{brand_product_id}','BrandProduct@update_bran
 Route::get('/send-mail','HomeController@send_mail') ;
 
 // product
-Route::get('/add-product','ProductController@add_product') ;
-Route::get('/edit-product/{product_id}','ProductController@edit_product') ;
+Route::group(['middleware' => 'auth.roles'], function () {
+	Route::get('/add-product','ProductController@add_product');
+	Route::get('/edit-product/{product_id}','ProductController@edit_product');
+});
 Route::get('/delete-product/{product_id}','ProductController@delete_product') ;
 Route::get('/all-product','ProductController@all_product') ;
 Route::get('/active-product/{product_id}','ProductController@unactive_product') ;
 Route::get('/unactive-product/{product_id}','ProductController@active_product') ;
-
 Route::post('/save-product','ProductController@save_product') ;
 Route::post('/update-product/{product_id}','ProductController@update_product') ;
-// mã giảm giá
+// comment 
+Route::post('/load-comment','ProductController@load_comment');
+Route::post('/send-comment','ProductController@send_comment');
 
+// mã giảm giá
 Route::post('/check-coupon','CartController@check_coupon') ;
 
 // quản lý phần cho admin 
 Route::get('/insert-coupon','CouponController@insert_coupon') ;
 Route::get('/unset-coupon','CouponController@unset_coupon') ;
-
 Route::get('/delete-coupon/{coupon_id}','CouponController@delete_coupon') ;
-//thêm mã giảm giá co khách hàng
 Route::post('/insert-coupon-code','CouponController@insert_coupon_code') ;
-//danh sách mã giảm giá
 Route::get('/list-coupon','CouponController@list_coupon') ;
 // kết thúc mã giảm giá
 
 //cart (them gia hang cho khach)
 Route::post('/save-cart','CartController@save_cart') ;
 Route::post('/update-cart-quantity','CartController@update_cart_quantity');
-
 Route::post('/update-cart','CartController@update_cart');
 Route::post('/add-cart-ajax','CartController@add_cart_ajax') ;
-
 Route::get('/show-cart','CartController@show_cart') ;
 Route::get('/gio-hang','CartController@gio_hang') ;
-
 Route::get('/del-all-product','CartController@delete_all_product') ;
-
 Route::get('/delete-to-cart/{rowId}','CartController@delete_to_cart') ;
 Route::get('/del-product/{seesion_id}','CartController@delete_product') ;
 
@@ -126,6 +123,30 @@ Route::post('/insert-delivery','DeliveryController@insert_delivery');
 Route::post('/select-feeship','DeliveryController@select_feeship');
 Route::post('/update-delivery','DeliveryController@update_delivery');
 
+//banner
+Route::get('/manage-slider','SliderController@manage_slider');
+Route::get('/add-slider','SliderController@add_slider');
+Route::get('/delete-slide/{slide_id}','SliderController@delete_slide');
+Route::post('/insert-slider','SliderController@insert_slider');
+Route::get('/unactive-slide/{slide_id}','SliderController@unactive_slide');
+Route::get('/active-slide/{slide_id}','SliderController@active_slide');
 
+//authencation
+Route::get('/register-auth','AuthController@register_auth');
+Route::get('/login-auth','AuthController@login_auth');
+Route::get('/logout-auth','AuthController@logout_auth');
 
+Route::post('/register','AuthController@register');
+Route::post('/login','AuthController@login');
+//user
+Route::get('users','UserController@index')->middleware('auth.roles');
+Route::get('add-users','UserController@add_users')->middleware('auth.roles');
+Route::get('delete-user-roles/{admin_id}','UserController@delete_user_roles')->middleware('auth.roles');
+Route::post('store-users','UserController@store_users');
+Route::post('assign-roles','UserController@assign_roles')->middleware('auth.roles');
+
+Route::get('impersonate/{admin_id}','UserController@impersonate');
+Route::get('impersonate-destroy','UserController@impersonate_destroy');
+//customer
+Route::get('customer','CustomerController@all_customer');
 
