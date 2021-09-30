@@ -16,7 +16,7 @@ class CouponController extends Controller
         if($coupon==true){
           
             Session::forget('coupon');
-            return redirect()->back()->with('message','Xóa mã khuyến mãi thành công');
+            return redirect()->back()->with('message','delete coupon success');
         }
     }
 
@@ -28,7 +28,7 @@ class CouponController extends Controller
     public function delete_coupon($coupon_id){
         $coupon = Coupon::find($coupon_id);
         $coupon->delete();
-        Session::put('message','Xóa mã giảm giá thành công');
+        Session::put('message','coupon success');
         return Redirect::to('list-coupon');
     }
 
@@ -44,7 +44,7 @@ class CouponController extends Controller
         $coupon ->coupon_condition =$data['coupon_condition'];
 
         $coupon->save();
-        Session::put('message','thêm mã giảm giá thành công');
+        Session::put('message','add coupon success');
         return Redirect::to('list-coupon');
 
     }

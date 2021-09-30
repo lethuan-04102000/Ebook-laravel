@@ -9,19 +9,6 @@
 								<h3>ZOOM</h3>
 							</div>
 							<div id="similar-product" class="carousel slide" data-ride="carousel">
-								
-	
-								    <div class="carousel-inner">
-										<div class="item active">
-											<a href=""><img src="{{URL::to('/public/fontend/images/similar1.jpg')}}" alt=""></a>
-											<a href=""><img src="{{URL::to('/public/fontend/images/similar2.jpg')}}" alt=""></a>
-											
-										</div>
-
-										
-									</div>
-							
-
 								  <!-- Controls -->
 								  <a class="left item-control" href="#similar-product" data-slide="prev">
 									<i class="fa fa-angle-left"></i>
@@ -116,7 +103,7 @@
 											<input style="width:100%;margin-left:0" type="text" class="comment_name" placeholder="Tên Bình Luận"/>
 										</span>
 										<textarea name="" class="comment_content" placeholder="Nội Dung Bình Luận"></textarea>
-										<div id="notify_comment">thêm bình luận thành công</div>
+										<!-- <div id="notify_comment">thêm bình luận thành công</div> -->
 										<b>Đánh giá sao: </b> <img src="images/product-details/rating.png" alt="" />
 										<button type="button" class="btn btn-default pull-right send_comment">
 											Thêm Bình Luận

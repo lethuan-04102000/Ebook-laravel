@@ -44,7 +44,7 @@ class Admincontroller extends Controller
                 Session::put('admin_id', $result->admin_id);
                 return Redirect::to('/dashboard');
         }else{
-            Session::put('message', 'tai khoan hoac mat khau sai, check again');
+            Session::put('message', 'wrong password or gmail, check again');
             return Redirect::to('/admin');
 
         }      

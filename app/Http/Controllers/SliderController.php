@@ -35,7 +35,7 @@ class SliderController extends Controller
     {
         $this->AuthLogin();
         DB::table('tbl_slider')->where('slider_id',$slide_id)->update(['slider_status'=>0]);
-        Session::put('message','Không kích hoạt slider thành công');
+        Session::put('message','unacitive slider success');
         return Redirect::to('manage-slider');
 
     }
@@ -44,7 +44,7 @@ class SliderController extends Controller
     {
         $this->AuthLogin();
         DB::table('tbl_slider')->where('slider_id',$slide_id)->update(['slider_status'=>1]);
-        Session::put('message','Kích hoạt slider thành công');
+        Session::put('message','active slider success');
         return Redirect::to('manage-slider');
 
     }
@@ -70,11 +70,11 @@ class SliderController extends Controller
             $slider->slider_status = $data['slider_status'];
             $slider->slider_desc = $data['slider_desc'];
            	$slider->save();
-            Session::put('message','Thêm slider thành công');
+            Session::put('message','add slider success');
             return Redirect::to('add-slider');
         }else
         {
-        	Session::put('message','Làm ơn thêm hình ảnh');
+        	Session::put('message','add image');
     		return Redirect::to('add-slider');
         }
        	
@@ -84,7 +84,7 @@ class SliderController extends Controller
     {
         $slider = Slider::find($slide_id);
         $slider->delete();
-        Session::put('message','Xóa slider thành công');
+        Session::put('message','delete slider success');
         return redirect()->back();
 
     }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use DB;
 use Auth;
-
 use App\Brand;
 use App\Slider;
 use Session;
@@ -16,7 +15,7 @@ class BrandProduct extends Controller
 {
     public function AuthLogin()
     {
-        $admin_id= Auth::id();
+        $admin_id = Session::get('admin_id');
         if($admin_id){
             return Redirect::to('dashboard');
         }else{
@@ -29,6 +28,7 @@ class BrandProduct extends Controller
         $this->AuthLogin();
     	return view('admin.brand.add_brand_product');
     }
+
     public function all_brand_product()
     {
         $this->AuthLogin();
@@ -42,32 +42,40 @@ class BrandProduct extends Controller
     
     public function save_brand_product(Request $request)
     {
-        $this->AuthLogin();
-        //$data = $request->all();
-        $data = $request->validate(
-            [
-                'brand_name'=>'required|unique:tbl_product|max:255',
-                'brand_slug'=>'required',
-                'brand_desc'=>'required',
-                'brand_status'=>'required',
-            ],
-            [
-                'brand_name.required' => 'nhập tên nhà xuất bản  yêu cầu',
-                'brand_slug.required' => 'nhập slug nhà xuất bản  yêu cầu',
-                'brand_desc.required' => 'Nhập mô tả',
-                'brand_status.required' => 'chọn trạng thái cho nhà xuất bản',
+    //    $this->AuthLogin();
+    //    $data = $request->all();
 
-            ]
-        );
-        $brand = new Brand();
-        $brand->brand_name = $data['brand_product_name'];
-        $brand->brand_slug = $data['brand_slug'];
-        $brand->brand_desc = $data['brand_product_desc'];
-        $brand->brand_status = $data['brand_product_status'];
-        $brand->save();
-       
+    //    $brand = new Brand();
+    //    $brand->brand_name = $data['brand_product_name'];
+    //    $brand->brand_slug = $data['brand_slug'];
+    //    $brand->brand_desc = $data['brand_product_desc'];
+    //    $brand->brand_status = $data['brand_product_status'];
+    //    $brand->save();
+      
+       $this->validate($request,
+       [
+        'brand_product_name'=>'required|unique:tbl_brand,brand_name|max:255',
+        'brand_slug'=>'required',
+        'brand_product_desc'=>'required',
+        'brand_product_status'=>'required',
+        ],
+        [
+        'brand_product_name.required' => 'nhập tên nhà xuất bản  yêu cầu',
+        'brand_product_name.unique'=>'Tên Brand sách Đã Tồn Tại',
+        'brand_product_name.max' =>'Ten brand Phải Có Độ Dài Từ 1 Đến 250 Kí TỰ',
+        'brand_slug.required' => 'nhập slug nhà xuất bản  yêu cầu',
+        'brand_product_desc.required' => 'Nhập mô tả',
+        'brand_product_status.required' => 'chọn trạng thái cho nhà xuất bản',
+        ]);
         
-    	Session::put('message','Thêm thương hiệu sản phẩm thành công');
+        $brand = new Brand();
+        $brand->brand_name = $request->brand_product_name;
+        $brand->brand_slug = $request->brand_slug;
+        $brand->brand_desc = $request->brand_product_desc;
+        $brand->brand_status = $request->brand_product_status;
+        $brand->save();
+
+    	Session::put('message','add brand name success');
     	return Redirect::to('add-brand-product');
     }
     // bật tắt danh mục
@@ -77,7 +85,7 @@ class BrandProduct extends Controller
 
         DB::table('tbl_brand')->where('brand_id',$brand_product_id)->update(['brand_status'=>0]);
 
-        Session::put('message',' khong kich hoat nha xuat ban  thanh cong');
+        Session::put('message','do not active status brand success ');
         return Redirect::to('all-brand-product');
 
     }
@@ -88,7 +96,7 @@ class BrandProduct extends Controller
 
         DB::table('tbl_brand')->where('brand_id',$brand_product_id)->update(['brand_status'=>1]);
 
-        Session::put('message','kich hoat nha xuat ban thanh cong');
+        Session::put('message','active status brand success');
         return Redirect::to('all-brand-product');
 
     }
@@ -117,7 +125,7 @@ class BrandProduct extends Controller
         // $data['brand_slug']=$request->brand_product_slug;
         // $data['brand_desc']=$request->brand_product_desc;
         // DB::table('tbl_brand')->where('brand_id',$brand_product_id)->update($data);
-        Session::put('message','cap nhat nha xuat ban  thanh cong');
+        Session::put('message','update brand success');
         return Redirect::to('all-brand-product');
     }
     
@@ -129,7 +137,7 @@ class BrandProduct extends Controller
 
         DB::table('tbl_brand')->where('brand_id',$brand_product_id)->delete();
 
-        Session::put('message','xoa nha xuat ban thanh cong');
+        Session::put('message','delete brand success');
         return Redirect::to('all-brand-product');
     }
 

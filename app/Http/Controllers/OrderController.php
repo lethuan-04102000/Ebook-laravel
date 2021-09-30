@@ -19,7 +19,7 @@ class OrderController extends Controller
 	{
 		$order = Order::where('order_code',$order_code)->first();
 		$order->delete();
-		 Session::put('message','Xóa đơn hàng thành công');
+		 Session::put('message','delete oder success');
         return redirect()->back();
 
 	}
@@ -86,7 +86,8 @@ class OrderController extends Controller
 	{
 		$order_details = OrderDetails::where('order_code',$checkout_code)->get();
 		$order = Order::where('order_code',$checkout_code)->get();
-		foreach($order as $key => $ord){
+		foreach($order as $key => $ord)
+		{
 			$customer_id = $ord->customer_id;
 			$shipping_id = $ord->shipping_id;
 		}
@@ -95,25 +96,29 @@ class OrderController extends Controller
 
 		$order_details_product = OrderDetails::with('product')->where('order_code', $checkout_code)->get();
 
-		foreach($order_details_product as $key => $order_d){
+		foreach($order_details_product as $key => $order_d)
+		{
 
 			$product_coupon = $order_d->product_coupon;
 		}
-		if($product_coupon != 'no'){
+		if($product_coupon != 'no')
+		{
 			$coupon = Coupon::where('coupon_code',$product_coupon)->first();
 
 			$coupon_condition = $coupon->coupon_condition;
 			$coupon_number = $coupon->coupon_number;
 
-			if($coupon_condition==1){
+			if($coupon_condition==1)
+			{
 				$coupon_echo = $coupon_number.'%';
-			}elseif($coupon_condition==2){
+			}elseif($coupon_condition==2)
+			{
 				$coupon_echo = number_format($coupon_number,0,',','.').'đ';
 			}
-		}else{
+		}else
+		{
 			$coupon_condition = 2;
 			$coupon_number = 0;
-
 			$coupon_echo = '0';
 		
 		}
@@ -202,14 +207,18 @@ class OrderController extends Controller
 			
 				$total = 0;
 
-				foreach($order_details_product as $key => $product){
+				foreach($order_details_product as $key => $product)
+				{
 
 					$subtotal = $product->product_price*$product->product_sales_quantity;
 					$total+=$subtotal;
 
-					if($product->product_coupon!='no'){
+					if($product->product_coupon!='no')
+					{
 						$product_coupon = $product->product_coupon;
-					}else{
+					}
+					else
+					{
 						$product_coupon = 'không mã';
 					}		
 
@@ -225,12 +234,15 @@ class OrderController extends Controller
 					</tr>';
 				}
 
-				if($coupon_condition==1){
-					$total_after_coupon = ($total*$coupon_number)/100;
-	                $total_coupon = $total - $total_after_coupon;
-				}else{
-                  	$total_coupon = $total - $coupon_number;
-				}
+				if($coupon_condition==1)
+					{
+						$total_after_coupon = ($total*$coupon_number)/100;
+						$total_coupon = $total - $total_after_coupon;
+					}
+				else
+					{
+						$total_coupon = $total - $coupon_number;
+					}
 
 		$output.= '<tr>
 				<td colspan="2">
@@ -271,7 +283,8 @@ class OrderController extends Controller
 	{
 		$order_details = OrderDetails::with('product')->where('order_code',$order_code)->get();
 		$order = Order::where('order_code',$order_code)->get();
-		foreach($order as $key => $ord){
+		foreach($order as $key => $ord)
+		{
 			$customer_id = $ord->customer_id;
 			$shipping_id = $ord->shipping_id;
 			$order_status = $ord->order_status;
@@ -281,15 +294,20 @@ class OrderController extends Controller
 
 		$order_details_product = OrderDetails::with('product')->where('order_code', $order_code)->get();
 
-		foreach($order_details_product as $key => $order_d){
+		foreach($order_details_product as $key => $order_d)
+		{
 
 			$product_coupon = $order_d->product_coupon;
 		}
-		if($product_coupon != 'no'){
+		if($product_coupon != 'no')
+		{
 			$coupon = Coupon::where('coupon_code',$product_coupon)->first();
 			$coupon_condition = $coupon->coupon_condition;
 			$coupon_number = $coupon->coupon_number;
-		}else{
+		
+		}
+		else
+		{
 			$coupon_condition = 2;
 			$coupon_number = 0;
 		}

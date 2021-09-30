@@ -55,8 +55,6 @@ class ProductController extends Controller
             'product_price'=>'required',
             'product_desc'=>'required',
             'product_content'=>'required',
-            'category_id'=>'required',
-            'brand_id'=>'required',
             'product_status'=>'required',
             'product_image'=>'required',
         ],
@@ -69,12 +67,8 @@ class ProductController extends Controller
             'product_price.required' => 'Nhập giá sản phẩm',
             'product_desc.required' => 'Nhập mô tả sản phẩm',
             'product_content.required' => 'Nhập nội dung sản phẩm',
-            'category_id.required' => 'Nhập id sản phẩm',
-            'brand_id.required' => 'Nhập id thương hiệu sản phẩm',
             'product_status.required' => 'Nhập trạng thái sản phẩm',
             'product_image.required' => 'chọn ảnh sản phẩm',
-
-
 
         ]
     );
@@ -98,12 +92,12 @@ class ProductController extends Controller
             $get_image->move('public/uploads/product',$new_image);
             $data['product_image'] = $new_image;
             DB::table('tbl_product')->insert($data);
-            Session::put('message','Thêm sản phẩm thành công');
+            Session::put('message','add product success');
             return Redirect::to('add-product');
         }
         $data['product_image'] = '';
         DB::table('tbl_product')->insert($data);
-        Session::put('message','Thêm sản phẩm thành công');
+        Session::put('message','add product success');
         return Redirect::to('all-product');
     }
 
@@ -112,7 +106,7 @@ class ProductController extends Controller
         $this->Authlogin();
         DB::table('tbl_product')->where('product_id',$product_id)->update(['product_status'=>0]);
 
-        Session::put('message',' Đổi trạng thái hiện thị cho sách thành công');
+        Session::put('message',' unactive product success');
         return Redirect::to('all-product');
 
     }
@@ -122,7 +116,7 @@ class ProductController extends Controller
         $this->Authlogin();
         DB::table('tbl_product')->where('product_id',$product_id)->update(['product_status'=>1]);
 
-        Session::put('message','Đổi trạng thái hiện thị cho sách thành công');
+        Session::put('message','active  product success');
         return Redirect::to('all-product');
 
     }
@@ -163,12 +157,12 @@ class ProductController extends Controller
                     $get_image->move('public/uploads/product',$new_image);
                     $data['product_image'] = $new_image;
                     DB::table('tbl_product')->where('product_id',$product_id)->update($data);
-                    Session::put('message','Cập nhật sản phẩm thành công');
+                    Session::put('message','update  product success');
                     return Redirect::to('all-product');
         }
             
         DB::table('tbl_product')->where('product_id',$product_id)->update($data);
-        Session::put('message','Cập nhật sản phẩm thành công');
+        Session::put('message','update  product success');
         return Redirect::to('all-product');
     }
     
@@ -176,7 +170,7 @@ class ProductController extends Controller
     {
         $this->Authlogin();
         DB::table('tbl_product')->where('product_id',$product_id)->delete();
-        Session::put('message','xóa Sách thành  công');
+        Session::put('message','delte product success');
         return Redirect::to('all-product');
     }
 

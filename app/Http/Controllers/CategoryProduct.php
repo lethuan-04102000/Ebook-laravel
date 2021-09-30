@@ -16,9 +16,11 @@ class CategoryProduct extends Controller
     public function Authlogin()
     {
         $admin_id= Session::get('admin_id');
-       if ($admin_id){
+       if ($admin_id)
+       {
           return Redirect::to('dashboard');
-       }else{
+       }else
+       {
            return  Redirect::to('admin')->send();
        }
     }
@@ -41,25 +43,29 @@ class CategoryProduct extends Controller
     public function save_category_product(Request $request)
     {
         $this->Authlogin();
-        //$data= array();
-        $data = $request->validate(
+
+        $this->validate($request,
             [
-                'category_name'=>'required|unique:tbl_product|max:255',
-                'meta_keywords'=>'required',
+                'category_product_name'=>'required|unique:tbl_category_product,category_name|max:255',
+                'category_product_keywords'=>'required',
                 'slug_category_product'=>'required',
-                'category_desc'=>'required',
-                'category_status'=>'required',
+                'category_product_desc'=>'required',
+                'category_product_status'=>'required',
 
             ],
             [
-                'category_name.required' => 'nhập tên nhà xuất bản  yêu cầu',
-                'meta_keywords.required' => 'nhập slug nhà xuất bản  yêu cầu',
+                'category_product_name.required' => 'nhập tên nhà xuất bản  yêu cầu',
+                'category_product_name.unique' => 'nhập tên nhà xuất bản  yêu cầu',
+                'category_product_name.max' => 'tối đa 255 ký tự',
+                
+                'category_product_keywords.required' => 'nhập slug nhà xuất bản  yêu cầu',
                 'slug_category_product.required' => 'Nhập mô tả',
-                'category_desc.required' => 'chọn trạng thái cho nhà xuất bản',
-                'category_status.required' => 'chọn trạng thái cho nhà xuất bản',
+                'category_product_desc.required' => 'chọn trạng thái cho nhà xuất bản',
+                'category_product_status.required' => 'chọn trạng thái cho nhà xuất bản',
 
             ]
         );
+
         $data['category_name']=$request->category_product_name;
         $data['meta_keywords']=$request->category_product_keywords;
         $data['slug_category_product'] = $request->slug_category_product;
@@ -67,7 +73,7 @@ class CategoryProduct extends Controller
         $data['category_status']=$request->category_product_status;
 
         DB::table('tbl_category_product')->insert($data);
-        Session::put('message','them danh muc thanh cong');
+        Session::put('message','add product success');
         return Redirect::to('add-category-product');
     }
 
@@ -76,7 +82,7 @@ class CategoryProduct extends Controller
         $this->Authlogin();
         DB::table('tbl_category_product')->where('category_id',$category_product_id)->update(['category_status'=>0]);
 
-        Session::put('message','kich hoat danh muc thanh cong');
+        Session::put('message','active category succes');
         return Redirect::to('all-category-product');
 
     }
@@ -86,7 +92,7 @@ class CategoryProduct extends Controller
         $this->Authlogin();
         DB::table('tbl_category_product')->where('category_id',$category_product_id)->update(['category_status'=>1]);
 
-        Session::put('message','kich hoat danh muc thanh cong');
+        Session::put('message','unactive category succes');
         return Redirect::to('all-category-product');
     }
 
@@ -107,7 +113,7 @@ class CategoryProduct extends Controller
         $data['slug_category_product'] = $request->slug_category_product;
         $data['category_desc']=$request->category_product_desc;
         DB::table('tbl_category_product')->where('category_id',$category_product_id)->update($data);
-        Session::put('message','cap nhat danh muc thanh cong');
+        Session::put('message','update category succes');
         return Redirect::to('all-category-product');
     }
 
@@ -118,7 +124,7 @@ class CategoryProduct extends Controller
         DB::table('tbl_product')->where('product_id',$category_product_id)->delete();
 
         DB::table('tbl_category_product')->where('category_id',$category_product_id)->delete();
-        Session::put('message','xoa danh muc thanh cong');
+        Session::put('message','delete category succes');
         return Redirect::to('all-category-product');
     }
     //end funtion cho admin

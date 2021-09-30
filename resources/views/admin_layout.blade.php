@@ -54,7 +54,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
         <!-- user login dropdown start-->
         <li class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                <img alt="" src="{{('public/backend/images/2.png')}}">
+                <img alt="" src="{{('public/backend/images/thuan.jpg')}}">
                 <span class="username">
                 	<?php
 					$name = Auth::user()->admin_name;

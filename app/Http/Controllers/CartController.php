@@ -24,7 +24,8 @@ class CartController extends Controller
                 if($coupon_session==true){
                     $is_avaiable = 0;
                     if($is_avaiable==0){
-                        $cou[] = array(
+                        $cou[] = array
+                        (
                             'coupon_code' => $coupon->coupon_code,
                             'coupon_condition' => $coupon->coupon_condition,
                             'coupon_number' => $coupon->coupon_number,
@@ -33,7 +34,8 @@ class CartController extends Controller
                         Session::put('coupon',$cou);
                     }
                 }else{
-                    $cou[] = array(
+                    $cou[] = array
+                        (
                             'coupon_code' => $coupon->coupon_code,
                             'coupon_condition' => $coupon->coupon_condition,
                             'coupon_number' => $coupon->coupon_number,
@@ -42,11 +44,11 @@ class CartController extends Controller
                     Session::put('coupon',$cou);
                 }
                 Session::save();
-                return redirect()->back()->with('message','Thêm mã giảm giá thành công');
+                return redirect()->back()->with('message','add code coupon success');
             }
 
         }else{
-            return redirect()->back()->with('error','Mã giảm giá không đúng');
+            return redirect()->back()->with('error','wrong code coupou');
         }
 
     }
@@ -119,9 +121,9 @@ class CartController extends Controller
                 }
             }
             Session::put('cart',$cart);
-            return redirect()->back()->with('message','xóa sản phẩm thành công');
+            return redirect()->back()->with('message','delete product success');
         }else{
-            return redirect()->back()->with('message','xóa sản phẩm thất bại');
+            return redirect()->back()->with('message','delete failed product');
         }
     }
 
@@ -142,9 +144,9 @@ class CartController extends Controller
 
             } 
             Session::put('cart',$cart);
-            return redirect()->back()->with('message','cập nhật số lượng thành công');
+            return redirect()->back()->with('message','update quantity success ');
         }else{
-            return redirect()->back()->with('message','cập nhật số lượng thất bại');
+            return redirect()->back()->with('message','update quantity faild');
         }
     }
 
@@ -156,7 +158,7 @@ class CartController extends Controller
             Session::forget('cart');
             Session::forget('coupon');
 
-            return redirect()->back()->with('message','Xóa hết sản phẩm trong giỏ hàng');
+            return redirect()->back()->with('message','delete all product in cart ');
 
         }
     }

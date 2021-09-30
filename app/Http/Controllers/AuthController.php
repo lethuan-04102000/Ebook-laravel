@@ -23,7 +23,7 @@ class AuthController extends Controller
     public function logout_auth()
     {
         Auth::logout();
-        return redirect('/login-auth')->with('message','Đăng xuất authentication thành công');
+        return redirect('/login-auth')->with('message','Log out authentication success');
     }
 
     public function login(Request $request)
@@ -37,7 +37,7 @@ class AuthController extends Controller
         if(Auth::attempt(['admin_email'=>$request->admin_email,'admin_password'=>$request->admin_password ])){
             return redirect('/dashboard');
         }else{
-            return redirect('/login-auth')->with('message','Lỗi đăng nhập authentication');
+            return redirect('/login-auth')->with('message','Eror authentication');
         }
 
     }
@@ -53,7 +53,7 @@ class AuthController extends Controller
 		$admin->admin_email = $data['admin_email'];
 		$admin->admin_password = md5($data['admin_password']);
 		$admin->save();
-		return redirect('/register-auth')->with('message','Đăng ký thành công');
+		return redirect('/register-auth')->with('message','Register succesfully');
 
     }
 
