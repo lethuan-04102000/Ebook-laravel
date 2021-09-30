@@ -25,6 +25,7 @@ class HomeController extends Controller
         });
         return redirect('/')->with('message','');
     }
+
     public function index(Request $request)
     {   
         //slider
@@ -61,6 +62,7 @@ class HomeController extends Controller
         $meta_keywords ="sản phẩm sách";
         $meta_title ="Shop Bán sách số 1 Việt Nam";
         $url_canonical =$request->url();
+        $slider = Slider::orderBy('slider_id','DESC')->where('slider_status','1')->take(4)->get();
 
         $keywords = $request-> keywords_submit;
         $cate_product = DB::table('tbl_category_product')->where('category_status','0')->orderby('category_id','desc')->get(); 
@@ -78,6 +80,7 @@ class HomeController extends Controller
         ->with('meta_desc',$meta_desc)
         ->with('meta_keywords',$meta_keywords)
         ->with('meta_title',$meta_title)
-        ->with('url_canonical',$url_canonical);;
+        ->with('url_canonical',$url_canonical)
+        ->with('slider',$slider);;
     }
 }
